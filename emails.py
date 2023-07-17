@@ -3,26 +3,23 @@ import email
 from email.header import decode_header
 import webbrowser
 import os
+from dotenv import load_dotenv
 
 
-# account credentials
-username = ""
-password = ""
-# use your email provider's IMAP server, you can look for your provider's IMAP server on Google
-# or check this page: https://www.systoolsgroup.com/imap/
-# for office 365, it's this:
 imap_server = "imap.dpoczta.pl"
 
+def configure():
+    load_dotenv()
 
 def clean(text):
     # clean text for creating a folder
     return "".join(c if c.isalnum() else "_" for c in text)
 
-
+configure()
 # create an IMAP4 class with SSL
 imap = imaplib.IMAP4_SSL(imap_server)
 # authenticate
-imap.login(username, password)
+imap.login(os.getenv('username'), os.getenv('password'))
 
 status, messages = imap.select("INBOX")
 # number of top emails to fetch
@@ -62,26 +59,10 @@ for i in range(messages, messages-N, -1):
                         pass
                     if content_type == "text/plain" and "attachment" not in content_disposition:
                         # print text/plain emails and skip attachments
-                        body = part.get_payload(decode=True).decode('utf-16')
-                        body = unicode(body, errors="ignore")
                         print(body)
-                    
-                    #elif "attachment" in content_disposition:
-                        # download attachment
-                    #    filename = part.get_filename()
-                    #    if decode_header(filename)[0][1] is not None:
-                    #        filename = decode_header(filename)[0][0].decode(
-                    #            decode_header(filename)[0][1])
-
-                    #    if filename:
-                    #        folder_name = clean(subject)
-                    #        if not os.path.isdir(folder_name):
-                    #            # make a folder for this email (named after the subject)
-                    #            os.mkdir(folder_name)
-                    #        filepath = os.path.join(folder_name, filename)
-                            # download attachment and save it
-                    #        with open(filepath, "wb") as f:
-                    #            f.write(part.get_payload(decode=True))
+                        
+                    elif "attachment" in content_disposition:
+                        pass
 
             else:
                 # extract content type of email

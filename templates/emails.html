@@ -1,10 +1,42 @@
 <html>
-<body>
-    <h2>Lista wiadomosci:</h2>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <style>
+      #message {
+        width: 100%;
+        padding: 50px 0;
+        text-align: center;
+        background-color: lightblue;
+        margin-top: 20px;
+      }
+      .toggleDiv {
+        display: none;
+      }
+      .show {
+        display: block;
+      }
+    </style>
+  </head>
+  <body>
+    <h2>Lista wiadomości:</h2>
     <ul>
-        {% for element in maile %}
-        <li>{{element}}</li>
-        {% endfor %}
+      {% for element in maile %}
+      <li>
+        <h4 onclick="toggleDiv('{{element.subject}}')">{{element.subject}}</h4>
+        <div class="toggleDiv" id="{{element.subject}}">
+          <b>From:</b> {{element.sender}}<br />
+          {{element.content}}
+        </div>
+      </li>
+
+      {% endfor %}
     </ul>
-</body>
+
+    <script>
+      function toggleDiv(divID) {
+        var div = document.getElementById(divID);
+        div.classList.toggle("show");
+      }
+    </script>
+  </body>
 </html>

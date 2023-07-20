@@ -2,12 +2,20 @@
   <head>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <style>
-      #message {
+      #content {
         width: 100%;
-        padding: 50px 0;
-        text-align: center;
-        background-color: lightblue;
-        margin-top: 20px;
+        padding: 5px 5;
+        margin-top: 5px;
+      }
+      #sender {
+        width: 100%;
+        padding: 5px 5;
+        margin-top: 5px;
+      }
+      #topic {
+        background-color: #f1f1f1;
+        margin-bottom: 20px;
+        padding: 10px 10;
       }
       .toggleDiv {
         display: none;
@@ -22,10 +30,12 @@
     <ul>
       {% for element in maile %}
       <li>
-        <h4 onclick="toggleDiv('{{element.subject}}')">{{element.subject}}</h4>
+        <h4 id="topic" onclick="toggleDiv('{{element.subject}}')">
+          {{element.subject}}
+        </h4>
         <div class="toggleDiv" id="{{element.subject}}">
-          <b>From:</b> {{element.sender}}<br />
-          {{element.content}}
+          <div id="sender"><b>From:</b> {{element.sender}}<br /></div>
+          <div id="content">{{element.content}}</div>
         </div>
       </li>
 

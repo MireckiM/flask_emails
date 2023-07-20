@@ -21,6 +21,9 @@ class mail:
         self.sender = sender
         self.content = content
 
+    def __str__(self):
+        return f'Temat: {self.subject},Nadawca: {self.sender},Treść: {self.content}'
+
 mailbox=[]
 
 configure()
@@ -68,7 +71,6 @@ def getEmails():
                         if content_type == "text/plain" and "attachment" not in content_disposition:
                             # print text/plain emails and skip attachments
                             print(body)
-                            mailbox.append(mail('temat','od kogo','tresc'))
                             mailbox.append(mail(subject,From,body))
                             print(mailbox[0])
                         elif "attachment" in content_disposition:

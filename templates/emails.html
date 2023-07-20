@@ -1,2 +1,10 @@
-<h2>Lista wiadomosci:</h2>
-<ul>{{maile}}</ul>
+<html>
+<body>
+    <h2>Lista wiadomosci:</h2>
+    <ul>
+        {% for element in maile %}
+        <li>{{element}}</li>
+        {% endfor %}
+    </ul>
+</body>
+</html>

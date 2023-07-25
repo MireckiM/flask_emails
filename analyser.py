@@ -7,7 +7,7 @@ from langchain.chat_models import ChatOpenAI
 from langchain.llms import OpenAI
 
 # Standard Helpers
-import pandas as pd
+import pandas as pdsource 
 import requests
 import time
 import json
@@ -71,7 +71,7 @@ schema = Object(
           examples=[("Poprosze o tłumaczenie załaczonego Worda z polskiego na brytyjski, termin do konca przyszlego tygodnia", "do konca przyszlego tygodnia"),
                     ("Poprosze o tłumaczenie załaczonego Worda z bengalskiego na niemiecki, zlecenie ekspresowe, musimy opublikować przed 5 kwietnia", "przed 5 kwietnia"),
                     ("Poprosze o tłumaczenie załaczonego Worda z bengalskiego na niemiecki, termin 21 stycznia", "21 stycznia"),
-                    ("Poprosze o tłumaczenie załaczonego Worda z bengalskiego na niemiecki, zlecenie ekspresowe, musimy opublikować przed 5 kwietnia", "przed 5 kwietnia"),],
+                    ("Poprosze o tłumaczenie załaczonego Worda z bengalskiego na niemiecki, zlecenie ekspresowe, musimy opublikować przed 5 kwietnia", "przed 5 kwietnia")],
           many=True,
       ),
     ],
@@ -79,9 +79,13 @@ schema = Object(
 )
 
 chain = create_extraction_chain(llm, schema, encoder_or_encoder_class='json')
+print("bef")
 output = chain.predict_and_parse(text="poprosze o tłumaczenie załaczonego Worda na brytyjski angielski i amerykanski angielski, termin do konca przyszlego tygodnia")['data']
 
 printOutput(output)
+
+def analyseMail(content):
+    return (chain.predict_and_parse(text=str(content))['data'])
 
 
 

@@ -4,6 +4,7 @@ from email.header import decode_header
 import webbrowser
 import os
 from dotenv import load_dotenv
+import analyser as _analyser
 
 
 imap_server = "imap.dpoczta.pl"
@@ -71,6 +72,8 @@ def getEmails():
                         if content_type == "text/plain" and "attachment" not in content_disposition:
                             # print text/plain emails and skip attachments
                             print(body)
+                            
+                            #print(_analyser.analyseMail(body))
                             mailbox.append(mail(subject,From,body))
                             print(mailbox[0])
                         elif "attachment" in content_disposition:
@@ -87,8 +90,8 @@ def getEmails():
                 if content_type == "text/html":
                     pass
                 print("="*100)
-                print("obiekt")
-                print(mailbox[0])
+#                print("obiekt")
+#                print(mailbox[0])
 
     imap.close()
     imap.logout()

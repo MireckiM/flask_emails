@@ -17,13 +17,14 @@ def clean(text):
     return "".join(c if c.isalnum() else "_" for c in text)
 
 class mail:
-    def __init__(self, subject, sender, content):
+    def __init__(self, subject, sender, content, analysis):
         self.subject = subject
         self.sender = sender
         self.content = content
+        self.analysis = analysis
 
     def __str__(self):
-        return f'Temat: {self.subject},Nadawca: {self.sender},Treść: {self.content}'
+        return f'Temat: {self.subject}, Nadawca: {self.sender}, Treść: {self.content}, Analiza: {self.analysis}'
 
 mailbox=[]
 
@@ -74,7 +75,7 @@ def getEmails():
                             print(body)
                             
                             #print(_analyser.analyseMail(body))
-                            mailbox.append(mail(subject,From,body))
+                            mailbox.append(mail(subject,From,body, _analyser.analyseMail(body)))
                             print(mailbox[0])
                         elif "attachment" in content_disposition:
                             pass

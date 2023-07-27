@@ -79,10 +79,10 @@ schema = Object(
 )
 
 chain = create_extraction_chain(llm, schema, encoder_or_encoder_class='json')
-print("bef")
-output = chain.predict_and_parse(text="poprosze o tłumaczenie załaczonego Worda na brytyjski angielski i amerykanski angielski, termin do konca przyszlego tygodnia")['data']
+#print("bef")
+#output = chain.predict_and_parse(text="poprosze o tłumaczenie załaczonego Worda na brytyjski angielski i amerykanski angielski, termin do konca przyszlego tygodnia")['data']
 
-printOutput(output)
+#printOutput(output)
 
 def analyseMail(content):
     return (chain.predict_and_parse(text=str(content))['data'])

@@ -49,14 +49,14 @@ schema = Object(
   attributes=[
       Text(
           id="jezyk_z",
-          description="Język, z którego tłumaczymy.",
-          examples=[("Poprosze o tłumaczenie załaczonego Worda z polskiego na brytyjski, termin do konca przyszlego tygodnia", "polski")],
+          description="Język, z którego tłumaczymy podany w formacie 'ISO-639-1 - ISO 3166-1'.",
+          examples=[("Poprosze o tłumaczenie załaczonego Worda z polskiego na brytyjski, termin do konca przyszlego tygodnia", "pl - PL")],
           many=True,
       ),
       Text(
           id="jezyk_na",
-          description="Język, na który tłumaczymy.",
-          examples=[("Poprosze o tłumaczenie załaczonego Worda z polskiego na brytyjski, termin do konca przyszlego tygodnia", "brytyjski")],
+          description="Język, na który tłumaczymy podany skrótem w formacie 'ISO-639-1 - ISO 3166-1'.",
+          examples=[("Poprosze o tłumaczenie załaczonego Worda z polskiego na brytyjski, termin do konca przyszlego tygodnia", "en - GB")],
           many=True,
       ),
       Text(

@@ -41,36 +41,37 @@ llm = ChatOpenAI(
 )
 
 schema = Object(
-  id="tlumaczenie_zlecenie",
+  id="translate_order",
   description=(
-      "Użytkownik składa zlecenie na tłumaczenie tekstu przez tłumacza."
-      "Użytkownik podaje szczegóły zlecenia dotyczące języków, terminu wykonania i załączonych dokumentów."
+      "The user makes an order for a text to be translated by a translating system."
+      "The user provides details of the order regarding languages, deadline of the order and attached documents."
+      "The result is provided in the same language as order given."
   ),
   attributes=[
       Text(
-          id="jezyk_z",
-          description="Język, z którego tłumaczymy podany w formacie 'ISO-639-1 - ISO 3166-1'.",
-          examples=[("Poprosze o tłumaczenie załaczonego Worda z polskiego na brytyjski, termin do konca przyszlego tygodnia", "pl - PL")],
+          id="language_from",
+          description="The language we are translating from in the 'ISO-639-1 - ISO 3166-1' format.",
+          examples=[("I would like a translation of the attached Word from Polish into British, due by the end of next week", "pl - PL")],
           many=True,
       ),
       Text(
-          id="jezyk_na",
-          description="Język, na który tłumaczymy podany skrótem w formacie 'ISO-639-1 - ISO 3166-1'.",
-          examples=[("Poprosze o tłumaczenie załaczonego Worda z polskiego na brytyjski, termin do konca przyszlego tygodnia", "en - GB")],
+          id="language_to",
+          description="Language to which we are translating, given in the abbreviated form 'ISO-639-1 - ISO 3166-1'.",
+          examples=[("I would like a translation of the attached Word from Polish into British, due by the end of next week", "en - GB")],
           many=True,
       ),
       Text(
-          id="dokument",
-          description="Załączony dokument.",
-          examples=[("Poprosze o tłumaczenie załaczonego Worda z polskiego na brytyjski, termin do konca przyszlego tygodnia", "Word")],
+          id="document",
+          description="Attached document.",
+          examples=[("I would like a translation of the attached Word from Polish into British, due by the end of next week", "Word")],
           many=True,
       ),
       Text(
-          id="termin",
-          description="Termin wykonania zlecenia.",
-          examples=[("Poprosze o tłumaczenie załaczonego Worda z polskiego na brytyjski, termin do konca przyszlego tygodnia", "do konca przyszlego tygodnia"),
-                    ("Poprosze o tłumaczenie załaczonego Worda z bengalskiego na niemiecki, zlecenie ekspresowe, musimy opublikować przed 5 kwietnia", "przed 5 kwietnia"),
-                    ("Poprosze o tłumaczenie załaczonego Worda z bengalskiego na niemiecki, termin 21 stycznia", "21 stycznia"),
+          id="deadline",
+          description="The deadline for the execution of the order.",
+          examples=[("I would like a translation of the attached Word from Polish into British, due by the end of next week", "by the end of next week"),
+                    ("Please translate the attached Word from Bengali to German, express order, we need to publish before April 5", "before April 5"),
+                    ("I would like a translation of the attached Word from Bengali to German, due January 21st", "January 21st"),
                     ("Poprosze o tłumaczenie załaczonego Worda z bengalskiego na niemiecki, zlecenie ekspresowe, musimy opublikować przed 5 kwietnia", "przed 5 kwietnia")],
           many=True,
       ),

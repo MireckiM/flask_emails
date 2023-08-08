@@ -50,7 +50,12 @@
           </li>
         </div>
         <div class="block">
-          <div id="analysis">{{element.analysis['translate_order']['deadline'][0]}}</div>
+          <div id="analysis">
+            <!--<div>{{element.analysis['translate_order']}}</div>-->
+            <div>Tłumaczenie: {{element.analysis['translate_order']['language_from']}} -> {{element.analysis['translate_order']['language_to']}}</div>
+            <div>Dołączony dokument: {{element.analysis['translate_order']['document']}}</div>
+            <div>Termin: {{element.analysis['translate_order']['deadline'][0]}}</div>
+          </div>
         </div>
       </div>
       {% endfor %}

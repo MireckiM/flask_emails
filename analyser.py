@@ -45,7 +45,7 @@ schema = Object(
   description=(
       "The user makes an order for a text to be translated by a translating system."
       "The user provides details of the order regarding languages, deadline of the order and attached documents."
-      "The result is provided in the same language as order given."
+      "The result is provided in Polish language."
   ),
   attributes=[
       Text(
@@ -69,9 +69,10 @@ schema = Object(
       Text(
           id="deadline",
           description="The deadline for the execution of the order.",
-          examples=[("I would like a translation of the attached Word from Polish into British, due by the end of next week", "by the end of next week"),
-                    ("Please translate the attached Word from Bengali to German, express order, we need to publish before April 5", "before April 5"),
-                    ("I would like a translation of the attached Word from Bengali to German, due January 21st", "January 21st"),
+          examples=[("I would like a translation of the attached Word from Polish into British, due by the end of next week", "do końca przyszłego tygodnia"),
+                    ("Please translate the attached Word from Bengali to German, express order, we need to publish before April 5", "przed 5 kwietnia"),
+                    ("I would like a translation of the attached Word from Bengali to German, due January 21st", "21 stycznia"),
+                    ("I would like a translation of the attached PDF from Polish to German, as soon as possible", "jak najszybciej"),
                     ("Poprosze o tłumaczenie załaczonego Worda z bengalskiego na niemiecki, zlecenie ekspresowe, musimy opublikować przed 5 kwietnia", "przed 5 kwietnia")],
           many=True,
       ),
@@ -83,8 +84,8 @@ chain = create_extraction_chain(llm, schema, encoder_or_encoder_class='json')
 #print("bef")
 output = chain.predict_and_parse(text="poprosze o tłumaczenie załaczonego Worda na brytyjski angielski i amerykanski angielski, termin do konca przyszlego tygodnia")['data']
 print("analyserpy")
-print(type(output))
-printOutput(output['translate_order']['deadline'])
+print(type(output['translate_order']['deadline']))
+printOutput(output['translate_order']['deadline'][0])
 
 def analyseMail(content):
     return (chain.predict_and_parse(text=str(content))['data'])

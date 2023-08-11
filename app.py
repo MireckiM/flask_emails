@@ -18,4 +18,4 @@ def about():
     return render_template('emails.html', maile=maile)
 
 if __name__ == '__main__':
-    app.run()
+    app.run(debug=True)

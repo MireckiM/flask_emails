@@ -1,5 +1,4 @@
-{% extends "base.html" %}
-{% block content %}
+{% extends "base.html" %} {% block content %}
 <html>
   <head>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -9,7 +8,7 @@
       }
       .block {
         flex: 1;
-        border: 1px solid black;
+        /*border: 0.5px solid black;*/
         padding: 10px;
       }
       #content {
@@ -23,7 +22,7 @@
         margin-top: 5px;
       }
       #topic {
-        background-color: #f1f1f1;
+        /*background-color: #f1f1f1;*/
         margin-bottom: 20px;
         padding: 10px 10;
       }
@@ -36,30 +35,50 @@
     </style>
   </head>
   <body>
-    <h2>Lista wiadomości:</h2>
+    <h2 class="ml-5">Lista wiadomości:</h2>
     <ul>
       {% for element in maile %}
       <div class="line-container">
         <div class="block">
-          <li>
-            <h4 id="topic" onclick="toggleDiv('{{element.subject}}')">
-              {{element.subject}}
-            </h4>
-            <div class="toggleDiv" id="{{element.subject}}">
-              <div id="sender"><b>From:</b> {{element.sender}}<br /></div>
-              <div id="content">{{element.content}}</div>
+          <div class="card">
+            <div class="card-body">
+              <h5
+                id="topic"
+                onclick="toggleDiv('{{element.subject}}')"
+                class="card-header"
+              >
+                {{element.subject}}
+              </h5>
+              <div class="toggleDiv" id="{{element.subject}}">
+                <div id="sender"><b>From:</b> {{element.sender}}<br /></div>
+                <div id="content">{{element.content}}</div>
+              </div>
             </div>
-          </li>
+          </div>
         </div>
         <div class="block">
           <div id="analysis">
-            <!--<div>{{element.analysis['translate_order']}}</div>-->
-            <div>Tłumaczenie: {{element.analysis['translate_order']['language_from']}} -> {{element.analysis['translate_order']['language_to']}}</div>
-            <div>Dołączony dokument: {{element.analysis['translate_order']['document']}}</div>
-            <div>Termin: {{element.analysis['translate_order']['deadline'][0]}}</div>
+            <div class="card">
+              <div class="card-body">
+                <!--<div>{{element.analysis['translate_order']}}</div>-->
+                <div>
+                  Tłumaczenie:
+                  {{element.analysis['translate_order']['language_from']}} ->
+                  {{element.analysis['translate_order']['language_to']}}
+                </div>
+                <div>
+                  Dołączony dokument:
+                  {{element.analysis['translate_order']['document']}}
+                </div>
+                <div>
+                  Termin: {{element.analysis['translate_order']['deadline'][0]}}
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
+      <hr class="hr" />
       {% endfor %}
     </ul>
 

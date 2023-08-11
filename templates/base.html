@@ -10,8 +10,8 @@
     <title>{% block title %} {% endblock %}</title>
   </head>
   <body>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-light">
-      <a class="navbar-brand ml-5">Flask Emails app</a>
+    <nav class="navbar navbar-expand-lg mr-auto navbar-dark bg-dark">
+      <a class="navbar-brand text-success mr-3">Flask-Emails</a>
       <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav">
           <li class="nav-item active">
@@ -19,9 +19,12 @@
               >Home <span class="sr-only">(current)</span></a
             >
           </li>
-          <li class="nav-item">
+          <li class="nav-item active">
             <a class="nav-link" href="/emails">Mails</a>
           </li>
+        </ul>
+        <ul class="navbar-nav me-auto">
+          <button type="button" class="btn btn-secondary">Logowanie</button>
         </ul>
       </div>
     </nav>

@@ -17,10 +17,11 @@ def clean(text):
     return "".join(c if c.isalnum() else "_" for c in text)
 
 class mail:
-    def __init__(self, subject, sender, content, analysis):
+    def __init__(self, subject, sender, content, file, analysis):
         self.subject = subject
         self.sender = sender
         self.content = content
+        self.file = file
         self.analysis = analysis
 
     def __str__(self):
@@ -78,7 +79,16 @@ def getEmails():
                             mailbox.append(mail(subject,From,body, _analyser.analyseMail(body)))
                             print(mailbox[0])
                         elif "attachment" in content_disposition:
-                            pass
+                            # download attachment
+                            filename = part.get_filename()
+                            if filename:
+                                folder_name = clean(subject)
+                                #if not os.path.isdir(folder_name):
+                                    # make a folder for this email (named after the subject)
+                                #    os.mkdir(folder_name)
+                                #filepath = os.path.join(folder_name, filename)
+                                # download attachment and save it
+                                #open(filepath, "wb").write(part.get_payload(decode=True))
 
                 else:
                     # extract content type of email

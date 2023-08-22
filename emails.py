@@ -115,12 +115,18 @@ def get_attachment_content(mail, message_id):
     for part in msg.walk():
         if part.get_content_maintype() == "multipart" or part.get("Content-Disposition") is None:
             continue
-        filename = part.get.filename()
-        content_type = part.get.content_type()
+        filename = part.get_filename()
+        content_type = part.get_content_type()
         file_data = part.get_payload(decode=True)
 
         if filename and content_type:
             return filename, file_data
+        
+def save_attachment(file_data, filename, download_folder):
+    file_path = os.path.join(download_folder, filename)
+    with open(file_path, "wb") as file:
+        file.write(file_data)
+    return file_path
 
     imap.close()
     imap.logout()

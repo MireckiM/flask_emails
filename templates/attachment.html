@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Email attachment viewer</title>
+    </head>
+    <body>
+        <h1>Email attachment viewer</h1>
+
+        {% if attachment_filename and attachment_data %}
+        <h2>Attachment:</h2>
+        <p>Filename: {{ attachment_filename }}</p>
+        <a href="{{url_for('download_attachment', filename=attachment_filename)}}" download>Download Attachment</a>
+        <hr>
+        <p>Attachment content:</p>
+        <pre>{{ attachment_data.decode('utf-8') }}</pre>
+        {% endif %}
+    </body>
+</html>

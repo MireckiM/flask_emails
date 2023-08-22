@@ -23,7 +23,7 @@ def index():
 def about():
     return render_template('emails.html', maile=maile)
 
-@app.route('/viev_attachment', methods=['POST'])
+@app.route('/view_attachment', methods=['POST'])
 def view_attachment():
     email_username = os.getenv('username')
     email_password = os.getenv('password')
@@ -34,6 +34,8 @@ def view_attachment():
     mail.select(mailbox)
 
     search_criteria='()'
+    #result, message_ids = mail.search(None, search_criteria)
+    result, message_ids = mail.select(mailbox)
 
     attachment_data = None
     attachment_filename = None
@@ -46,7 +48,8 @@ def view_attachment():
 
     mail.logout()
 
-    return render_template('index.html', attachment_filename=attachment_filename, attachment_data=attachment_data)
+    return render_template('attachment.html', attachment_filename=attachment_filename, attachment_data=attachment_data)
+
 
 if __name__ == '__main__':
     app.run(debug=True)

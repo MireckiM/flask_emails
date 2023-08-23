@@ -17,15 +17,15 @@ def clean(text):
     return "".join(c if c.isalnum() else "_" for c in text)
 
 class mail:
-    def __init__(self, subject, sender, content, analysis):
+    def __init__(self, subject, sender, content, filename, analysis):
         self.subject = subject
         self.sender = sender
         self.content = content
-        #self.file = file
+        self.filename = filename
         self.analysis = analysis
 
     def __str__(self):
-        return f'Temat: {self.subject}, Nadawca: {self.sender}, Treść: {self.content}, Analiza: {self.analysis}'
+        return f'Temat: {self.subject}, Nadawca: {self.sender}, Treść: {self.content}, Nazwa plku: {self.filename}, Analiza: {self.analysis}'
 
 mailbox=[]
 
@@ -76,12 +76,14 @@ def getEmails():
                             print(body)
                             
                             #print(_analyser.analyseMail(body))
-                            mailbox.append(mail(subject,From,body, _analyser.analyseMail(body)))
-                            print(mailbox[0])
+                            #mailbox.append(mail(subject,From,body,"", _analyser.analyseMail(body)))
+                            #print(mailbox[0])
+                            filename = None
                         elif "attachment" in content_disposition:
-                            pass
+                            
                             # download attachment
-                            #filename = part.get_filename()
+                            filename = part.get_filename()
+                            
                             #if filename:
                             #    folder_name = clean(subject)
                             #    if not os.path.isdir(folder_name):
@@ -103,8 +105,9 @@ def getEmails():
                 if content_type == "text/html":
                     pass
                 print("="*100)
-#                print("obiekt")
-#                print(mailbox[0])
+            
+        mailbox.append(mail(subject,From,body,filename, _analyser.analyseMail(body)))
+
 
 def get_attachment_content(mail, message_id):
     result, data = mail.fetch(message_id, "(RFC822)")

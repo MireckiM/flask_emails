@@ -23,7 +23,7 @@ def index():
 def about():
     return render_template('emails.html', maile=maile)
 
-@app.route('/view_attachment', methods=['POST'])
+@app.route('/view_attachment')
 def view_attachment():
     email_username = os.getenv('username')
     email_password = os.getenv('password')
@@ -33,9 +33,9 @@ def view_attachment():
     mailbox = "INBOX"
     mail.select(mailbox)
 
-    search_criteria='()'
-    #result, message_ids = mail.search(None, search_criteria)
-    result, message_ids = mail.select(mailbox)
+    search_criteria='(SEEN)'
+    result, message_ids = mail.search(None, search_criteria)
+    #result, message_ids = mail.select(mailbox)
 
     attachment_data = None
     attachment_filename = None

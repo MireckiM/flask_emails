@@ -17,15 +17,16 @@ def clean(text):
     return "".join(c if c.isalnum() else "_" for c in text)
 
 class mail:
-    def __init__(self, subject, sender, content, filename, analysis):
+    def __init__(self, subject, sender, content, filename, file_data, analysis):
         self.subject = subject
         self.sender = sender
         self.content = content
         self.filename = filename
+        self.file_data = file_data
         self.analysis = analysis
 
     def __str__(self):
-        return f'Temat: {self.subject}, Nadawca: {self.sender}, Treść: {self.content}, Nazwa plku: {self.filename}, Analiza: {self.analysis}'
+        return f'Temat: {self.subject}, Nadawca: {self.sender}, Treść: {self.content}, Nazwa plku: {self.filename}, Plik: {self.file_data}, Analiza: {self.analysis}'
 
 mailbox=[]
 
@@ -79,10 +80,15 @@ def getEmails():
                             #mailbox.append(mail(subject,From,body,"", _analyser.analyseMail(body)))
                             #print(mailbox[0])
                             filename = None
+                            content_type = None
+                            file_data = None
+
                         elif "attachment" in content_disposition:
                             
                             # download attachment
                             filename = part.get_filename()
+                            content_type = part.get_content_type()
+                            file_data = part.get_payload(decode=True)
                             
                             #if filename:
                             #    folder_name = clean(subject)
@@ -106,7 +112,10 @@ def getEmails():
                     pass
                 print("="*100)
             
-        mailbox.append(mail(subject,From,body,filename, _analyser.analyseMail(body)))
+        mailbox.append(mail(subject,From,body,filename,file_data, _analyser.analyseMail(body)))
+        
+    imap.close()
+    imap.logout()
 
 
 def get_attachment_content(mail, message_id):
@@ -130,6 +139,3 @@ def save_attachment(file_data, filename, download_folder):
     with open(file_path, "wb") as file:
         file.write(file_data)
     return file_path
-
-    imap.close()
-    imap.logout()

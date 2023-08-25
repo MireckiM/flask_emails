@@ -9,7 +9,7 @@
         {% if attachment_filename and attachment_data %}
         <h2>Attachment:</h2>
         <p>Filename: {{ attachment_filename }}</p>
-        <a href="{{url_for('download_attachment', filename=attachment_filename)}}" download>Download Attachment</a>
+        <a href="{{url_for('download_attachment', filename={{attachment_filename}})}}" download>Download Attachment</a>
         <hr>
         <p>Attachment content:</p>
         <pre>{{ attachment_data }}</pre>

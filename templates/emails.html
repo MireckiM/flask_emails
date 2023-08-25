@@ -68,7 +68,7 @@
                 </div>
                 <div>
                   Dołączony dokument:
-                  <!--{{element.analysis['translate_order']['document']}}--><a href="{{url_for('download_attachment', filename="element.filename")}}" download>{{element.filename}}</a>
+                  <!--{{element.analysis['translate_order']['document']}}--><a href="{{url_for('download_attachment', filename=element['filename'])}}" download>{{element.filename}}</a>
                 </div>
                 <div>
                   Termin: {{element.analysis['translate_order']['deadline']}}
@@ -81,7 +81,10 @@
       <hr class="hr" />
       {% endfor %}
     </ul>
-
+    
+    <li>
+      
+    </li>
     <script>
       function toggleDiv(divID) {
         var div = document.getElementById(divID);

@@ -29,6 +29,7 @@ class mail:
         return f'Temat: {self.subject}, Nadawca: {self.sender}, Treść: {self.content}, Nazwa plku: {self.filename}, Plik: {self.file_data}, Analiza: {self.analysis}'
 
 mailbox=[]
+email_data = []
 
 configure()
 # create an IMAP4 class with SSL
@@ -43,6 +44,8 @@ N = 3
 messages = int(messages[0])
 def getEmails():
     for i in range(messages, messages-N, -1):
+        email_item = {}
+        email_item["attachments"] = []
         # fetch the email message by ID
         res, msg = imap.fetch(str(i), "(RFC822)")
         for response in msg:
@@ -58,6 +61,10 @@ def getEmails():
                 From, encoding = decode_header(msg.get("From"))[0]
                 if isinstance(From, bytes):
                     From = From.decode(encoding)
+                    
+                email_item["subject"] = subject
+                email_item["from"] = From
+                #email_item["attachments"]
                 print("Subject:", subject)
                 print("From:", From)
                 # if the email message is multipart
@@ -75,7 +82,7 @@ def getEmails():
                         if content_type == "text/plain" and "attachment" not in content_disposition:
                             # print text/plain emails and skip attachments
                             print(body)
-                            
+                            email_item["body"] = body
                             #print(_analyser.analyseMail(body))
                             #mailbox.append(mail(subject,From,body,"", _analyser.analyseMail(body)))
                             #print(mailbox[0])
@@ -90,12 +97,17 @@ def getEmails():
                             content_type = part.get_content_type()
                             file_data = part.get_payload(decode=True)
                             
-                            #if filename:
-                            #    folder_name = clean(subject)
+                            if filename:
+                                folder_name = clean(subject)
                             #    if not os.path.isdir(folder_name):
                             #        # make a folder for this email (named after the subject)
                             #        os.mkdir(folder_name)
-                            #    filepath = os.path.join(folder_name, filename)
+                                filepath = os.path.join(folder_name, filename)
+                                attachment_info = {
+                                    "filename": filename,
+                                    "filepath": filepath
+                                }
+                                email_item["attachments"].append(attachment_info)
                             #    # download attachment and save it
                             #    open(filepath, "wb").write(part.get_payload(decode=True))
                             #    webbrowser.open(filepath)
@@ -113,6 +125,7 @@ def getEmails():
                 print("="*100)
             
         mailbox.append(mail(subject,From,body,filename,file_data, _analyser.analyseMail(body)))
+        email_data.append(email_item)
         
     imap.close()
     imap.logout()

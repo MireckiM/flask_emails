@@ -13,6 +13,7 @@ def configure():
     load_dotenv()
 
 maile = _emails.mailbox
+email_data = _emails.email_data
 
 
 @app.route('/')
@@ -21,7 +22,7 @@ def index():
 
 @app.route('/emails', methods=['GET','POST'])
 def about():
-    return render_template('emails.html', maile=maile)
+    return render_template('emails.html', maile=maile, email_data=email_data)
 
 @app.route('/view_attachment')
 def view_attachment():

@@ -22,7 +22,11 @@ def index():
 
 @app.route('/emails', methods=['GET','POST'])
 def about():
-    return render_template('emails.html', maile=maile, email_data=email_data)
+    return render_template('emails.html', maile=maile)
+
+@app.route('/emails2', methods=['GET','POST'])
+def emails():
+    return render_template('emails2.html', email_data=email_data)
 
 @app.route('/view_attachment')
 def view_attachment():

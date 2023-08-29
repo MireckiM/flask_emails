@@ -6,11 +6,32 @@
   <body>
     <h2 class="ml-5">Lista wiadomości:</h2>
     <ul>
-        {% for email_item in email_data %}
-        <li>
-            
-        </li>
-        {% endfor %}
+      {% for email_item in email_data %}
+      <li>
+        <strong>Subject:</strong> {{ email_item.subject}}
+        <br />
+        <strong>From:</strong> {{email_item.from}}
+        <br />
+        {{email_item.body}} {% if email_item.attachments %}
+        <ul>
+          {% for attachment in email_item.attachments %}
+
+          <li>
+            <a
+              href="{{url_for('download_attachment', filename=attachment.filename, data=attachment.data)}}"
+              download
+              >{{ attachment.filename}}</a
+            >
+          </li>
+
+          {% endfor %}
+        </ul>
+        {% else %}
+        <em>No attachments</em>
+        {% endif %}
+      </li>
+      <br />
+      {% endfor %}
     </ul>
   </body>
 </html>

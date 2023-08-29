@@ -42,6 +42,13 @@ status, messages = imap.select("INBOX")
 N = 3
 # total number of emails
 messages = int(messages[0])
+
+def decode_attachment_name(name):
+    decoded_name = decode_header(name)[0][0]
+    if isinstance(decoded_name, bytes):
+        decoded_name = decoded_name.decode()
+        return decoded_name
+
 def getEmails():
     for i in range(messages, messages-N, -1):
         email_item = {}
@@ -98,6 +105,8 @@ def getEmails():
                             file_data = part.get_payload(decode=True)
                             
                             if filename:
+                                filename = decode_attachment_name(filename)
+                                attachment_data = part.get_payload(decode=True)
                                 folder_name = clean(subject)
                             #    if not os.path.isdir(folder_name):
                             #        # make a folder for this email (named after the subject)
@@ -105,6 +114,7 @@ def getEmails():
                                 filepath = os.path.join(folder_name, filename)
                                 attachment_info = {
                                     "filename": filename,
+                                    "data": attachment_data,
                                     "filepath": filepath
                                 }
                                 email_item["attachments"].append(attachment_info)

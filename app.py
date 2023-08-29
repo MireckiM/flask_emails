@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, send_file
+from flask import Flask, render_template, request, send_file, make_response
 import emails as _emails
 import analyser as _analyser
 import os
@@ -57,7 +57,14 @@ def view_attachment():
 
 @app.route('/download_attachment/<filename>')
 def download_attachment(filename):
-    return send_file(filename, as_attachment=True)
+    attachment_data = request.args.get('data')
+    response = make_response(attachment_data)
+    response.headers.set('Content-Type', 'application/octet-stream')
+    response.headers.set(
+        'Content-Disposition', 'attachment', filename=filename
+    )
+    return response
+    #return send_file(filename, as_attachment=True)
 
 if __name__ == '__main__':
     app.run(debug=True)

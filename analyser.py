@@ -22,6 +22,9 @@ from markdownify import markdownify as md
 # For token counting
 from langchain.callbacks import get_openai_callback
 
+# import deep_translator
+#from deep_translator import ChatGptTranslator
+
 def printOutput(output):
     print(json.dumps(output,sort_keys=True, indent=3))
 
@@ -92,7 +95,10 @@ def analyseMail(content):
 
 
 
+#text = 'happy coding'
+#translated = ChatGptTranslator(api_key=os.getenv('openai_api_key'), target='polish').translate(text=text)
 
+#print (translated)
 
 
 

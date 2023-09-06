@@ -90,6 +90,7 @@ def getEmails():
                             # print text/plain emails and skip attachments
                             print(body)
                             email_item["body"] = body
+                            email_item["analysis"] = _analyser.analyseMail(body)
                             #print(_analyser.analyseMail(body))
                             #mailbox.append(mail(subject,From,body,"", _analyser.analyseMail(body)))
                             #print(mailbox[0])

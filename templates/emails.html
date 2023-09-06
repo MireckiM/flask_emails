@@ -37,21 +37,23 @@
   <body>
     <h2 class="ml-5">Lista wiadomości:</h2>
     <ul>
-      {% for element in maile %}
+      {% for email_item in email_data %}
       <div class="line-container">
         <div class="block">
           <div class="card">
             <div class="card-body">
               <h5
                 id="topic"
-                onclick="toggleDiv('{{element.subject}}')"
+                onclick="toggleDiv('{{email_item.subject}}')"
                 class="card-header"
               >
-                {{element.subject}}
+                {{email_item.subject}}
               </h5>
-              <div class="toggleDiv" id="{{element.subject}}">
-                <div id="sender"><b>From:</b> {{element.sender}}<br /></div>
-                <div id="content">{{element.content}}</div>
+              <div class="toggleDiv" id="{{email_item.subject}}">
+                <div id="sender">
+                  <strong>From:</strong> {{email_item.from}}<br />
+                </div>
+                <div id="content">{{email_item.body}}</div>
               </div>
             </div>
           </div>
@@ -60,18 +62,32 @@
           <div id="analysis">
             <div class="card">
               <div class="card-body">
-                <!--<div>{{element.analysis['translate_order']}}</div>-->
+                <!--<div>{{email_item.analysis['translate_order']}}</div>-->
                 <div>
-                  Tłumaczenie:
-                  {{element.analysis['translate_order']['language_from']}} ->
-                  {{element.analysis['translate_order']['language_to']}}
+                  <strong>Tłumaczenie:</strong>
+                  {{email_item.analysis['translate_order']['language_from']}} ->
+                  {{email_item.analysis['translate_order']['language_to']}}
                 </div>
                 <div>
-                  Dołączony dokument:
-                  <!--{{element.analysis['translate_order']['document']}}--><a href="{{url_for('download_attachment', filename=element['filename'])}}" download>{{element.filename}}</a>
+                  <strong>Dołączone pliki:</strong>
+                  <ul>
+                    {% for attachment in email_item.attachments %}
+
+                    <li>
+                      <a
+                        href="{{url_for('download_attachment', filename=attachment.filename, data=attachment.data)}}"
+                        download
+                        >{{ attachment.filename}}</a
+                      >
+                    </li>
+
+                    {% endfor %}
+                  </ul>
+                  <!--{{email_item.analysis['translate_order']['document']}}-->
                 </div>
                 <div>
-                  Termin: {{element.analysis['translate_order']['deadline']}}
+                  <strong>Termin:</strong>
+                  {{email_item.analysis['translate_order']['deadline']}}
                 </div>
               </div>
             </div>
@@ -81,10 +97,8 @@
       <hr class="hr" />
       {% endfor %}
     </ul>
-    
-    <li>
-      
-    </li>
+
+    <li></li>
     <script>
       function toggleDiv(divID) {
         var div = document.getElementById(divID);

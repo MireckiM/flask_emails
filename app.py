@@ -79,9 +79,10 @@ def download(subject):
     # authenticate
     imap.login(os.getenv('username'), os.getenv('password'))
     status, messages = imap.select("INBOX")
-    search_criteria = '(SUBJECT "{subject}")'
-    result, messages = imap.search(None, search_criteria)
-    N = 1
+    subject=_emails.clean(subject)
+    #search_criteria = '(SUBJECT "{subject}")'
+    #result, messages = imap.search(None, search_criteria)
+    N = 3
     # total number of emails
     messages = int(messages[0])
     for i in range(messages, messages-N, -1):
@@ -94,10 +95,10 @@ def download(subject):
                 # parse a bytes email into a message object
                 msg = email.message_from_bytes(response[1])
                 # decode the email subject
-                subject, encoding = decode_header(msg["Subject"])[0]
+                email_subject, encoding = decode_header(msg["Subject"])[0]
                 if isinstance(subject, bytes):
                     # if it's a bytes, decode to str
-                    subject = subject.decode(encoding)
+                    email_subject = email_subject.decode(encoding)
                 #    decode email sender
                 From, encoding = decode_header(msg.get("From"))[0]
                 if isinstance(From, bytes):
@@ -119,17 +120,22 @@ def download(subject):
                             pass
 
                         elif "attachment" in content_disposition:
-                            # download attachment
-                            filename = part.get_filename()
-                            if filename:
-                                folder_name = _emails.clean(subject)
-                                if not os.path.isdir(folder_name):
-                                    # make a folder for this email (named after the subject)
-                                    os.mkdir(folder_name)
-                                filepath = os.path.join(folder_name, filename)
-                                # download attachment and save it
-                                open(filepath, "wb").write(part.get_payload(decode=True))
-
+                            file_data = part.get_payload(decode=True)
+                            if email_subject == subject:
+                                # download attachment
+                                filename = part.get_filename()
+                                if filename:
+                                    folder_name = _emails.clean(subject)
+                                    if not os.path.isdir(folder_name):
+                                        # make a folder for this email (named after the subject)
+                                        os.mkdir(folder_name)
+                                    filepath = os.path.join(folder_name, filename)
+                                    # download attachment and save it
+                                    open(filepath, "wb").write(part.get_payload(decode=True))
+                            else:
+                                pass
+                            
+    return file_data
 
 
 if __name__ == '__main__':

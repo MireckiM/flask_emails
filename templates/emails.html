@@ -49,10 +49,10 @@
               >
                 {{email_item.subject}}
               </h5>
+              <div id="sender">
+                <strong>From:</strong> {{email_item.from}}<br />
+              </div>
               <div class="toggleDiv" id="{{email_item.subject}}">
-                <div id="sender">
-                  <strong>From:</strong> {{email_item.from}}<br />
-                </div>
                 <div id="content">{{email_item.body}}</div>
               </div>
             </div>
@@ -70,12 +70,18 @@
                 </div>
                 <div>
                   <strong>Dołączone pliki:</strong>
+                  {% if email_item.attachments %}
                   <ul>
                     {% for attachment in email_item.attachments %}
 
                     <li>
-                      <a
+                      <!--<a
                         href="{{url_for('download_attachment', filename=attachment.filename, data=attachment.data)}}"
+                        download
+                        >{{ attachment.filename}}</a
+                      >-->
+                      <a
+                        href="{{url_for('download', subject=email_item.subject)}}"
                         download
                         >{{ attachment.filename}}</a
                       >
@@ -83,6 +89,9 @@
 
                     {% endfor %}
                   </ul>
+                  {% else %}
+                  <em>Brak załączników.</em>
+                  {% endif %}
                   <!--{{email_item.analysis['translate_order']['document']}}-->
                 </div>
                 <div>

@@ -16,19 +16,19 @@ def clean(text):
     # clean text for creating a folder
     return "".join(c if c.isalnum() else "_" for c in text)
 
-class mail:
-    def __init__(self, subject, sender, content, filename, file_data, analysis):
-        self.subject = subject
-        self.sender = sender
-        self.content = content
-        self.filename = filename
-        self.file_data = file_data
-        self.analysis = analysis
+#class mail:
+#    def __init__(self, subject, sender, content, filename, file_data, analysis):
+#        self.subject = subject
+#        self.sender = sender
+#        self.content = content
+#        self.filename = filename
+#        self.file_data = file_data
+#        self.analysis = analysis
+#
+#    def __str__(self):
+#        return f'Temat: {self.subject}, Nadawca: {self.sender}, Treść: {self.content}, Nazwa plku: {self.filename}, Plik: {self.file_data}, Analiza: {self.analysis}'
 
-    def __str__(self):
-        return f'Temat: {self.subject}, Nadawca: {self.sender}, Treść: {self.content}, Nazwa plku: {self.filename}, Plik: {self.file_data}, Analiza: {self.analysis}'
-
-mailbox=[]
+#mailbox=[]
 email_data = []
 
 configure()
@@ -135,7 +135,7 @@ def getEmails():
                     pass
                 print("="*100)
             
-        mailbox.append(mail(subject,From,body,filename,file_data, _analyser.analyseMail(body)))
+#        mailbox.append(mail(subject,From,body,filename,file_data, _analyser.analyseMail(body)))
         email_data.append(email_item)
         
     imap.close()

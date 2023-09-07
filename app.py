@@ -1,18 +1,21 @@
 from flask import Flask, render_template, request, send_file, make_response, session
 import emails as _emails
+import email
+from email.header import decode_header
 import analyser as _analyser
 import os
 from dotenv import load_dotenv
 import imaplib
 
 app = Flask(__name__)
+app.secret_key = os.getenv('secret_key')
 
 _emails.getEmails()
 
 def configure():
     load_dotenv()
 
-maile = _emails.mailbox
+#maile = _emails.mailbox
 email_data = _emails.email_data
 
 
@@ -68,15 +71,66 @@ def download_attachment(filename):
     else:
         return "Attachment not found"
 
-#def download_attachment(filename):
-#    attachment_data = request.args.get('data')
-#    response = make_response(attachment_data)
-#    response.headers.set('Content-Type', 'application/octet-stream')
-#    response.headers.set(
-#        'Content-Disposition', 'attachment', filename=filename
-#    )
-#    return response
-#    #return send_file(filename, as_attachment=True)
+@app.route('/download/<subject>')
+def download(subject):
+    imap_server = "imap.dpoczta.pl"
+    # create an IMAP4 class with SSL
+    imap = imaplib.IMAP4_SSL(imap_server)
+    # authenticate
+    imap.login(os.getenv('username'), os.getenv('password'))
+    status, messages = imap.select("INBOX")
+    search_criteria = '(SUBJECT "{subject}")'
+    result, messages = imap.search(None, search_criteria)
+    N = 1
+    # total number of emails
+    messages = int(messages[0])
+    for i in range(messages, messages-N, -1):
+        email_item = {}
+        email_item["attachments"] = []
+        # fetch the email message by ID
+        res, msg = imap.fetch(str(i), "(RFC822)")
+        for response in msg:
+            if isinstance(response, tuple):
+                # parse a bytes email into a message object
+                msg = email.message_from_bytes(response[1])
+                # decode the email subject
+                subject, encoding = decode_header(msg["Subject"])[0]
+                if isinstance(subject, bytes):
+                    # if it's a bytes, decode to str
+                    subject = subject.decode(encoding)
+                #    decode email sender
+                From, encoding = decode_header(msg.get("From"))[0]
+                if isinstance(From, bytes):
+                    From = From.decode(encoding)
+                    
+                # if the email message is multipart
+                if msg.is_multipart():
+                    # iterate over email parts
+                    for part in msg.walk():
+                        # extract content type of email
+                        content_type = part.get_content_type()
+                        content_disposition = str(part.get("Content-Disposition"))
+                        try:
+                            # get the email body
+                            body = part.get_payload(decode=True).decode()
+                        except:
+                            pass
+                        if content_type == "text/plain" and "attachment" not in content_disposition:
+                            pass
+
+                        elif "attachment" in content_disposition:
+                            # download attachment
+                            filename = part.get_filename()
+                            if filename:
+                                folder_name = _emails.clean(subject)
+                                if not os.path.isdir(folder_name):
+                                    # make a folder for this email (named after the subject)
+                                    os.mkdir(folder_name)
+                                filepath = os.path.join(folder_name, filename)
+                                # download attachment and save it
+                                open(filepath, "wb").write(part.get_payload(decode=True))
+
+
 
 if __name__ == '__main__':
     app.run(debug=True)

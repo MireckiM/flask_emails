@@ -85,6 +85,10 @@
                         download
                         >{{ attachment.filename}}</a
                       >
+                      <form method="POST" action="/downloadAttachment">
+                        <button type="submit" name="argument" value={{attachment.filename}}>{{attachment.filename}}</button>
+
+                      </form>
                     </li>
 
                     {% endfor %}

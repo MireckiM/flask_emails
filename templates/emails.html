@@ -32,6 +32,9 @@
       .show {
         display: block;
       }
+      .inline {
+        display: inline-block;
+      }
     </style>
   </head>
   <body>
@@ -75,20 +78,27 @@
                     {% for attachment in email_item.attachments %}
 
                     <li>
-                      <!--<a
-                        href="{{url_for('download_attachment', filename=attachment.filename, data=attachment.data)}}"
-                        download
-                        >{{ attachment.filename}}</a
-                      >-->
+                      <!--
                       <a
                         href="{{url_for('download', subject=email_item.subject)}}"
                         download
                         >{{ attachment.filename}}</a
-                      >
-                      <form method="POST" action="/downloadAttachment">
-                        <button type="submit" name="argument" value={{attachment.filename}}>{{attachment.filename}}</button>
-
-                      </form>
+                      >-->
+                      <div class="inline">
+                        <a> {{attachment.filename}} </a>
+                      </div>
+                      <div class="inline">
+                        <form method="POST" action="/downloadAttachment">
+                          <button
+                            type="submit"
+                            name="argument"
+                            class="btn btn-link"
+                            value="{{attachment.filename}}"
+                          >
+                            Pobierz
+                          </button>
+                        </form>
+                      </div>
                     </li>
 
                     {% endfor %}

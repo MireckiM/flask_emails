@@ -84,16 +84,41 @@ schema = Object(
 )
 
 chain = create_extraction_chain(llm, schema, encoder_or_encoder_class='json')
-#print("bef")
-#output = chain.predict_and_parse(text="poprosze o tłumaczenie załaczonego Worda na brytyjski angielski i amerykanski angielski, termin do konca przyszlego tygodnia")['data']
+print("bef")
+output = chain.predict_and_parse(text="test3")['data']
 #print("analyserpy")
 #print(type(output['translate_order']['deadline']))
 #printOutput(output['translate_order']['deadline'][0])
+#print (len(output))
+if len(output)==0:
+    print("tablica pusta")
+else:
+    printOutput(output)
+
+emptyDict = {
+   "translate_order": {
+      "deadline": [
+         "Brak"
+      ],
+      "document": [
+         "Brak"
+      ],
+      "language_from": [
+         "Brak"
+      ],
+      "language_to": [
+         "Brak"
+      ]
+   }
+}
 
 def analyseMail(content):
-    return (chain.predict_and_parse(text=str(content))['data'])
-
-
+    analyse = chain.predict_and_parse(text=str(content))['data']
+    if len(analyse)==0:
+        return (emptyDict)
+    else:
+        return (analyse)
+    
 
 #text = 'happy coding'
 #translated = ChatGptTranslator(api_key=os.getenv('openai_api_key'), target='polish').translate(text=text)

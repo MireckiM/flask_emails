@@ -91,10 +91,11 @@ output = chain.predict_and_parse(text="test3")['data']
 #print(type(output['translate_order']['deadline']))
 #printOutput(output['translate_order']['deadline'][0])
 #print (len(output))
-if len(output)==0:
-    print("tablica pusta")
-else:
-    printOutput(output)
+
+#if len(output)==0:
+#    print("tablica pusta")
+#else:
+#    printOutput(output)
 
 emptyDict = {
    "translate_order": {

@@ -123,27 +123,27 @@ def getEmails():
     imap.logout()
 
 
-def get_attachment_content(mail, message_id):
-    result, data = mail.fetch(message_id, "(RFC822)")
-    raw_email = data[0][1]
+#def get_attachment_content(mail, message_id):
+#    result, data = mail.fetch(message_id, "(RFC822)")
+#    raw_email = data[0][1]
+#
+#    msg = email.message_from_bytes(raw_email)
+#
+#    for part in msg.walk():
+#        if part.get_content_maintype() == "multipart" or part.get("Content-Disposition") is None:
+#            continue
+#        filename = part.get_filename()
+#        content_type = part.get_content_type()
+#        file_data = part.get_payload(decode=True)
 
-    msg = email.message_from_bytes(raw_email)
-
-    for part in msg.walk():
-        if part.get_content_maintype() == "multipart" or part.get("Content-Disposition") is None:
-            continue
-        filename = part.get_filename()
-        content_type = part.get_content_type()
-        file_data = part.get_payload(decode=True)
-
-        if filename and content_type:
-            return filename, file_data
+#        if filename and content_type:
+#            return filename, file_data
         
-def save_attachment(file_data, filename, download_folder):
-    file_path = os.path.join(download_folder, filename)
-    with open(file_path, "wb") as file:
-        file.write(file_data)
-    return file_path
+#def save_attachment(file_data, filename, download_folder):
+#    file_path = os.path.join(download_folder, filename)
+#    with open(file_path, "wb") as file:
+#        file.write(file_data)
+#    return file_path
 
 def download(attachmentName):
     imap_server = "imap.dpoczta.pl"

@@ -1,5 +1,6 @@
 from flask import Flask, render_template, request, send_file, make_response, session
 import emails as _emails
+import livolink as _livolink
 import email
 from email.header import decode_header
 import analyser as _analyser
@@ -139,6 +140,12 @@ def download(subject):
 
 @app.route('/downloadAttachment', methods=['POST'])
 def downloadAttachment():    
+    attach = request.form.get('argument')
+    data = _emails.download(attach)
+    return f'{data}'
+
+@app.route('/sendOrder', methods=['POST'])
+def sendOrder():    
     attach = request.form.get('argument')
     data = _emails.download(attach)
     return f'{data}'

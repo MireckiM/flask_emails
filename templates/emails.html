@@ -111,6 +111,16 @@
                   <strong>Termin:</strong>
                   {{email_item.analysis['translate_order']['deadline']}}
                 </div>
+                <form method="POST" action="/sendOrder">
+                  <button
+                    type="submit"
+                    name="argument"
+                    class="btn btn-outline-success"
+                    value="{{email_item.subject}}"
+                  >
+                    Wyślij zlecenie
+                  </button>
+                </form>
               </div>
             </div>
           </div>

@@ -116,7 +116,7 @@ payload=json.dumps({
 
             "attributes": {
 
-                "InquiryRemarks": "komentarz dodany przez API"
+                "InquiryRemarks": "komentarz dodany przez API 2"
 
             }
 

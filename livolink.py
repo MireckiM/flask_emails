@@ -20,11 +20,11 @@ payload = json.dumps({
 
       "attributes": {
 
-        "Login": "marcin.mirecki@poleng.pl",
+        "Login": "",
 
-        "Password": "admin123$",
+        "Password": "",
 
-        "Organization": "QA"
+        "Organization": ""
 
       }
 

@@ -1,6 +1,12 @@
 import requests
-
 import json
+import os
+from dotenv import load_dotenv
+
+def configure():
+    load_dotenv()
+
+configure()
 
 url = "https://test-api.livocloud.com/api/v1/auth/identities/login"
 
@@ -20,11 +26,11 @@ payload = json.dumps({
 
       "attributes": {
 
-        "Login": "",
+        "Login": os.getenv('login'),
 
-        "Password": "",
+        "Password": os.getenv('livopassword'),
 
-        "Organization": ""
+        "Organization": "QA"
 
       }
 

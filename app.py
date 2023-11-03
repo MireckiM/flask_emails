@@ -146,9 +146,9 @@ def downloadAttachment():
 
 @app.route('/sendOrder', methods=['POST'])
 def sendOrder():    
-    attach = request.form.get('argument')
-    data = _emails.download(attach)
-    return f'{data}'
+    mail = request.form.get('argument')
+    _livolink.inquiry(mail)
+    return mail
 
 
 if __name__ == '__main__':

@@ -77,12 +77,6 @@
                     {% for attachment in email_item.attachments %}
 
                     <li>
-                      <!--
-                      <a
-                        href="{{url_for('download', subject=email_item.subject)}}"
-                        download
-                        >{{ attachment.filename}}</a
-                      >-->
                       <div class="inline">
                         <a> {{attachment.filename}} </a>
                       </div>
@@ -116,9 +110,9 @@
                     type="submit"
                     name="argument"
                     class="btn btn-outline-success"
-                    value="{{email_item.subject}}"
+                    value="{{email_item.body}}"
                   >
-                    Wyślij zlecenie2
+                    Wyślij zlecenie
                   </button>
                 </form>
               </div>

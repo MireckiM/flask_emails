@@ -125,7 +125,9 @@ def inquiry(text):
 
               "attributes": {
 
-                  "InquiryRemarks": text
+                  "InquiryRemarks": text ,
+
+                  "Remarks": text
 
               }
 
@@ -146,3 +148,101 @@ def inquiry(text):
   response = requests.request("PATCH", url, headers=headers, data=payload)
 
   print(response.text)
+
+
+def sendImage(file):
+  url = "https://test-api.livocloud.com/api/v1/auth/identities/login"
+
+  payload = json.dumps({
+
+    "meta": {
+
+      "dataType": "AuthLogin"
+
+    },
+
+    "data": [
+
+      {
+
+        "type": "AuthLogin",
+
+        "attributes": {
+
+          "Login": os.getenv('login'),
+
+          "Password": os.getenv('livopassword'),
+
+          "Organization": "QA"
+
+        }
+
+      }
+
+    ]
+
+  })
+
+  headers = {
+
+    'Content-Type': 'application/json'
+
+  }
+
+  # 1. - logujemy się, pobieramy id organizacji oraz token dostępowy
+
+  response = requests.request("POST", url, headers=headers, data=payload)
+
+  resource = json.loads(response.text)
+
+  loginResponseDto = resource['data'][0]['attributes']
+
+  accessToken = loginResponseDto['AccessToken']
+
+  organizationId = loginResponseDto['OrganizationInfos'][0]['id']
+
+  # 2. - uzywając tokenu dostępowego tworzymy w organizacji QA dla klienta "Livo klient" zapytanie w imieniu jej pracownika ""
+
+  url = "https://test-api.livocloud.com/api/v1/{organizationId}/inquiries/82be25b0-6597-4da6-a898-17e2cea29d37/files?ContextFilterNames=TranslateFiles".format(organizationId=organizationId)
+  
+  payload=json.dumps({
+
+    "data": [
+
+      {
+
+        "type": "InquiryItemFile",
+
+        "attributes": {
+
+          "CustomerRef": {
+
+            "id": "d4c73999-fefc-4a16-8f61-4d1e3f7d4e3a"
+
+          },
+
+          "SubmitPersonRef": {
+
+            "id": "bdc44010-3b46-4cab-9eb4-c8b8d722b74e"
+
+          }
+
+        }
+
+      }
+
+    ]
+
+  })
+
+  headers = {
+
+    'Content-Type': 'application/json',
+
+    'Authorization': 'Bearer ' + accessToken
+
+  }
+
+  response = requests.request("POST", url, headers=headers, data=payload)
+
+  resource=json.loads(response.text)

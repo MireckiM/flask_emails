@@ -150,7 +150,7 @@ def inquiry(text):
   print(response.text)
 
 
-def sendImage(file):
+def sendFile(file):
   url = "https://test-api.livocloud.com/api/v1/auth/identities/login"
 
   payload = json.dumps({
@@ -209,29 +209,21 @@ def sendImage(file):
 
     "data": [
 
-      {
+          {
 
-        "type": "InquiryItemFile",
+              "id": inquiryId,
 
-        "attributes": {
+              "type": "InquiryItemFile",
 
-          "CustomerRef": {
+              "attributes": {
 
-            "id": "d4c73999-fefc-4a16-8f61-4d1e3f7d4e3a"
+                  "Object": file
 
-          },
-
-          "SubmitPersonRef": {
-
-            "id": "bdc44010-3b46-4cab-9eb4-c8b8d722b74e"
+              }
 
           }
 
-        }
-
-      }
-
-    ]
+      ]
 
   })
 

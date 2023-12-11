@@ -105,6 +105,7 @@
                   <strong>Termin:</strong>
                   {{email_item.analysis['translate_order']['deadline']}}
                 </div>
+
                 <form method="POST" action="/sendOrder">
                   <button
                     type="submit"
@@ -115,6 +116,18 @@
                     Wyślij zlecenie
                   </button>
                 </form>
+                {% if email_item.attachments %}
+                <form method="POST" action="/sendFile">
+                  <button
+                    type="submit"
+                    name="argument"
+                    class="btn btn-outline-success"
+                    value="{{attachment}}"
+                  >
+                    Wyślij plik
+                  </button>
+                </form>
+                {% endif %}
               </div>
             </div>
           </div>

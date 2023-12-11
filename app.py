@@ -150,6 +150,12 @@ def sendOrder():
     _livolink.inquiry(mail)
     return mail
 
+@app.route('/sendFile', methods=['POST'])
+def sendFile():    
+    file = request.form.get('argument')
+    _livolink.sendFile(file)
+    return file
+
 
 if __name__ == '__main__':
     app.run(debug=True)
